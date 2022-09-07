@@ -2,8 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditorField
-from decouple import config
 import smtplib
+import os
 
 
 class CreatePostForm(FlaskForm):
@@ -38,9 +38,9 @@ def send_email(name, subject_li, email, message):
     # NOTE: For security, I have not included my credentials. You will want to fill in your own depending on your service.
     
     # Set variables
-    send_from = config("GMAIL_ACCT")                    # Email address
-    password = config("GMAIL_PASSWORD")                 # Email password
-    recipient = [config("GMAIL_ACCT")]                  # Recipients
+    send_from = os.environ.get("GMAIL_ACCT")                    # Email address
+    password = os.environ.get("GMAIL_PASSWORD")                 # Email password
+    recipient = [os.environ.get("GMAIL_ACCT")]                  # Recipients
     subject = (f"{ subject_li }")                       # Set a subject line
     body = (f"Name: { name }\nEmail: { email }"
             + f"\nMessage: { message }")                # Set body variable
