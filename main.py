@@ -13,20 +13,9 @@ from forms import RegisterForm, CommentForm, LoginForm, CreatePostForm, send_ema
 import os
 
 app = Flask(__name__)
+
 app.config['SECRET_KEY'] = os.environ.get("FLASK_SECRET_KEY")
-ckeditor = CKEditor(app)
-Bootstrap(app)
-
-##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL")
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
 login_manager = LoginManager()
-login_manager.init_app(app)
-
-# Set Variables
-this_year = datetime.now().year
 
 gravatar = Gravatar(app,
                     size=100,
@@ -36,6 +25,18 @@ gravatar = Gravatar(app,
                     force_lower=False,
                     use_ssl=False,
                     base_url=None)
+
+##CONNECT TO DB
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URL")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+ckeditor = CKEditor(app)
+Bootstrap(app)
+db = SQLAlchemy(app)
+login_manager.init_app(app)
+
+# Set Variables
+this_year = datetime.now().year
 
 
 @login_manager.user_loader
